@@ -6,7 +6,7 @@
 // @version     1.0
 // @author      akane
 // @description 2023/4/12 16:26:35
-// @downloadURL https://github.com/akane/vmscripts/raw/master/src/twitter_download.js
+// @downloadURL https://raw.githubusercontent.com/akane/vmscripts/main/src/twitter_download.js
 // ==/UserScript==
 
 const css = document.createElement('style');
