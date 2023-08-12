@@ -29,11 +29,13 @@ function get_all(testid) {
 
 async function download(url, name) {
   const res = await fetch(url);
+  if (!res.ok) return false;
   const blob = await res.blob();
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = name;
   a.click();
+  return true;
 }
 
 function mount() {
@@ -62,8 +64,21 @@ function mount() {
     button.addEventListener('click', async (ev) => {
       ev.preventDefault();
       button.innerHTML = 'Downloading...';
-      await download(url, `${tweet_id}_${photo_id}.${url.searchParams.get('format')}`);
-      button.innerHTML = 'OK!';
+      const try_types = ['png', 'jpg', 'webp'];
+      let ok = false;
+      for (const t of try_types) {
+        url.searchParams.set('format', t);
+        const result = await download(url, `${tweet_id}_${photo_id}.${url.searchParams.get('format')}`);
+        if (result) {
+          ok = true;
+          break;
+        }
+      }
+      if (ok) {
+        button.innerHTML = 'OK!';
+      } else {
+        button.innerHTML = 'Failed!!!!!';
+      }
     });
   }
 }
